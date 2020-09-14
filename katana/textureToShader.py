@@ -1,7 +1,6 @@
 import NodegraphAPI
 import re
 import os
-import converter
 from PyQt5.QtWidgets import QFileDialog
 
 '''
