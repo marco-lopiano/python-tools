@@ -1,6 +1,7 @@
 import NodegraphAPI
 import re
 import os
+import converter
 from PyQt5.QtWidgets import QFileDialog
 
 '''
@@ -14,9 +15,12 @@ class TextToMat(object):
         self.directory = QFileDialog.getExistingDirectory()
         return self.directory
 
+    def checkForConversion(self):
+        pass
+
     def check_type(self, texture):
         outputs = []
-        if 'diffuse' in texture.lower():
+        if 'diffuse' in texture.lower() or 'color' in texture.lower():
             outputs = ['baseColor', 'RGB']
         elif 'height' in texture.lower():
             outputs = ['bumpMapping', 'R']
@@ -29,7 +33,7 @@ class TextToMat(object):
         elif 'specular' in texture.lower():
             outputs = ['specular', 'R']
         else:
-            return False
+            return ['','']
         return outputs
 
     def group_by_name(self, directory):
