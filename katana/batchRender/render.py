@@ -1,4 +1,3 @@
-#Marco Lopiano - 08/08/2020
 import os
 import NodegraphAPI
 from Katana import KatanaFile
@@ -54,11 +53,18 @@ def frameRange():
 # render function
 def batchRender():
     RenderNode = NodegraphAPI.GetNode('BatchRender').getParameter('user.render_node').getValue(0)
+    renderSettingsNode = NodegraphAPI.GetNode('BatchRender').getParameter('user.settings_node').getValue(0)
+
     range = frameRange()
+    #root = NodegraphAPI.GetRootNode()
+
     renderSettings = RenderManager.RenderingSettings()
     renderSettings.mode=RenderManager.RenderModes.DISK_RENDER
     renderSettings.asynchRenderMessageCB=messageHandler
     renderSettings.asynch=False
+
+    res = NodegraphAPI.GetNode('BatchRender').getParameter('user.resolution').getValue(0)
+    NodegraphAPI.GetNode(str(renderSettingsNode)).getParameter('args.renderSettings.resolution.value').setValue(str(res),0)
 
     demo = ProgressBar()
     demo.UI()
@@ -71,13 +77,5 @@ def batchRender():
         renderSettings.frame = frame
         RenderManager.StartRender('diskRender', node=NodegraphAPI.GetNode(RenderNode), settings=renderSettings)
 
-# scan scene for render nodes and update dropdown menu
-def getRenderNodes():
-    renderNodeDict = {}
-    for n in NodegraphAPI.GetAllNodesByType('Render'):
-        renderNodeDict[n.getName()] = n
-    macro = NodegraphAPI.GetNode('BatchRender')
-    rNodeParam = macro.getParameter('user.render_node')
-    hints = {'widget': 'popup', 'options': renderNodeDict.keys()}
-    rNodeParam.setHintString(repr(hints))
-    return renderNodeDict
+
+batchRender()
