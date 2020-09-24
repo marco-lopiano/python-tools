@@ -13,7 +13,7 @@ import threading
 class TextureManager(QMainWindow):
     '''
         UI tool for handling and converting texture
-        to .text renderman file format
+        to .tex renderman file format
     '''
 
     def __init__(self):
