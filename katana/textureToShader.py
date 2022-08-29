@@ -14,7 +14,8 @@ class TextToMat(object):
     def call_for_directory(self):
         self.directory = QFileDialog.getExistingDirectory()
         return self.directory
-
+    
+    #TODO: replace all the if/else structure with a dictionary based logic 
     def check_type(self, texture):
         outputs = []
         if 'diffuse' in texture.lower() or 'color' in texture.lower():
